@@ -1,9 +1,12 @@
 {
   "name": "@rooshi/notube-shared",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "main": "index.js",
   "exports": {
     ".": "./index.js",
     "./defaults.json": "./defaults.json"
+  },
+  "dependencies": {
+    "google-protobuf": "^3.21.4"
   }
 }

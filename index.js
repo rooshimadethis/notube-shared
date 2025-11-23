@@ -1,2 +1,2 @@
 // Exports all generated protobuf code
-export * from './alternative.js';
+module.exports = require('./alternative_pb.js');
