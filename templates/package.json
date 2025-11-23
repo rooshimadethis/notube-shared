@@ -1,0 +1,9 @@
+{
+  "name": "@rooshi/notube-shared",
+  "version": "0.0.0-PLACEHOLDER",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./defaults.json": "./defaults.json"
+  }
+}

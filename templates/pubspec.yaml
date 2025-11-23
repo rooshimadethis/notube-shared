@@ -1,0 +1,15 @@
+name: notube_shared
+description: Shared Proto and Data for NoTube
+version: 0.0.0-PLACEHOLDER
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  protobuf: ^3.1.0
+
+# Expose the JSON file as a Flutter asset
+flutter:
+  assets:
+    - assets/defaults.json
