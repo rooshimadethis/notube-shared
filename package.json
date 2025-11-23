@@ -1,0 +1,9 @@
+{
+  "name": "@rooshi/notube-shared",
+  "version": "0.0.5",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./defaults.json": "./defaults.json"
+  }
+}
