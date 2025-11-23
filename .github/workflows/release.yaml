@@ -31,9 +31,7 @@ jobs:
           setup_only: true
 
       - name: Generate Code
-        run: |
-          buf generate src --template '{"version":"v1","plugins":[{"plugin":"buf.build/protocolbuffers/js","out":"gen/js"}]}'
-          buf generate src --template '{"version":"v1","plugins":[{"plugin":"buf.build/protocolbuffers/dart","out":"gen/dart/lib"}]}'
+        run: buf generate
 
       # ---------------------------------------------------------
       # JAVASCRIPT BUILD & TAG
