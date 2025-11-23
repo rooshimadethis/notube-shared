@@ -44,7 +44,7 @@ jobs:
               run: |
                 cp templates/package.json gen/js/
                 cp templates/index.js gen/js/
-                cp data/defaults.json gen/js/defaults.json
+                cp data/default_alternatives.json gen/js/default_alternatives.json
           
                 CLEAN_VERSION=${NEW_VERSION#v}
                 sed -i "s/0.0.0-PLACEHOLDER/$CLEAN_VERSION/g" gen/js/package.json
@@ -65,7 +65,7 @@ jobs:
               run: |
                 cp templates/pubspec.yaml gen/dart/
                 mkdir -p gen/dart/assets
-                cp data/defaults.json gen/dart/assets/defaults.json
+                cp data/default_alternatives.json gen/dart/assets/default_alternatives.json
                 
                 CLEAN_VERSION=${NEW_VERSION#v}
                 sed -i "s/0.0.0-PLACEHOLDER/$CLEAN_VERSION/g" gen/dart/pubspec.yaml
