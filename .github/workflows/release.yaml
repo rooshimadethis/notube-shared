@@ -31,8 +31,58 @@ jobs:
               
             - name: Generate code
               run: |
-                buf generate src --template '{"version":"v1","plugins":[{"name":"js","out":"gen/js"}]}'
-                buf generate src --template '{"version":"v1","plugins":[{"name":"dart","out":"gen/dart/lib"}]}'
+                # Generate JS using the official plugin from Buf Registry
+                buf generate src --template '{"version":"v1","plugins":[{"plugin":"buf.build/protocolbuffers/js","out":"gen/js"}]}'
+                
+                # Generate Dart using the official plugin from Buf Registry
+                buf generate src --template '{"version":"v1","plugins":[{"plugin":"buf.build/protocolbuffers/dart","out":"gen/dart/lib"}]}'
+            
+            # 3. Package JS (Inject Version + Copy JSON)
+            - name: Prepare JS Package
+              env:
+                NEW_VERSION: ${{ steps.tag_version.outputs.new_tag }}
+              run: |
+                cp templates/package.json gen/js/
+                cp templates/index.js gen/js/
+                cp data/defaults.json gen/js/defaults.json
+          
+                CLEAN_VERSION=${NEW_VERSION#v}
+                sed -i "s/0.0.0-PLACEHOLDER/$CLEAN_VERSION/g" gen/js/package.json
 
-            
-            
+            - name: Deploy JS Branch
+              uses: s0/git-publish-subdir-action@develop
+              env:
+                REPO: self
+                BRANCH: builds/js
+                FOLDER: gen/js
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                MESSAGE: "Build ${{ steps.tag_version.outputs.new_tag }}"
+
+            # 4. Package Dart (Inject Version + Copy JSON)
+            - name: Prepare Dart Package
+              env:
+                NEW_VERSION: ${{ steps.tag_version.outputs.new_tag }}
+              run: |
+                cp templates/pubspec.yaml gen/dart/
+                mkdir -p gen/dart/assets
+                cp data/defaults.json gen/dart/assets/defaults.json
+                
+                CLEAN_VERSION=${NEW_VERSION#v}
+                sed -i "s/0.0.0-PLACEHOLDER/$CLEAN_VERSION/g" gen/dart/pubspec.yaml
+
+            - name: Deploy Dart Branch
+              uses: s0/git-publish-subdir-action@develop
+              env:
+                REPO: self
+                BRANCH: builds/dart
+                FOLDER: gen/dart
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                MESSAGE: "Build ${{ steps.tag_version.outputs.new_tag }}"
+
+            # 5. Create GitHub Release
+            - name: Create Release
+              uses: softprops/action-gh-release@v1
+              with:
+                tag_name: ${{ steps.tag_version.outputs.new_tag }}
+                name: Release ${{ steps.tag_version.outputs.new_tag }}
+                body: ${{ steps.tag_version.outputs.changelog }}
