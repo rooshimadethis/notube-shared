@@ -12,4 +12,4 @@ dependencies:
 # Expose the JSON file as a Flutter asset
 flutter:
   assets:
-    - assets/defaults.json
+    - assets/default_alternatives.json
