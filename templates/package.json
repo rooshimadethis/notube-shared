@@ -4,7 +4,7 @@
   "main": "index.js",
   "exports": {
     ".": "./index.js",
-    "./defaults.json": "./defaults.json"
+    "./default_alternatives.json": "./default_alternatives.json"
   },
   "dependencies": {
     "google-protobuf": "^3.21.4"
